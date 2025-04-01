@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}La fine équipe!
+			{% endblock %}
+		</title>
+		<link href="{{ asset('build/app.css') }}" rel="stylesheet">
+		{% block header %}
+			{% include './elements/header.html.twig' %}
+		{% endblock %}
+	</head>
+	<body>
+		{% block body %}
+		{% endblock %}
+		<script src="{{ asset('build/app.js') }}"></script>
+	</body>
+</html>
