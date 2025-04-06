@@ -27,7 +27,8 @@ class WorkshopType extends AbstractType
             ->add('capacity')
             ->add('category', EntityType::class, [
             'class' => Category::class,
-            'choice_label' => 'name'])
+            'choice_label' => 'title',
+            'multiple' => 'true'])
         ;
     }
 
