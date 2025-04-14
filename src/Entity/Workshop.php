@@ -29,9 +29,9 @@ class Workshop
     private ?int $capacity = null;
 
     /**
-     * @var Collection<int, category>
+     * @var Collection<int, Category>
      */
-    #[ORM\ManyToMany(targetEntity: category::class, inversedBy: 'workshops')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'workshops')]
     private Collection $category;
 
     /**
@@ -100,14 +100,14 @@ class Workshop
     }
 
     /**
-     * @return Collection<int, category>
+     * @return Collection<int, Category>
      */
     public function getCategory(): Collection
     {
         return $this->category;
     }
 
-    public function addCategory(category $category): static
+    public function addCategory(Category $category): static
     {
         if (!$this->category->contains($category)) {
             $this->category->add($category);
@@ -116,7 +116,7 @@ class Workshop
         return $this;
     }
 
-    public function removeCategory(category $category): static
+    public function removeCategory(Category $category): static
     {
         $this->category->removeElement($category);
 
