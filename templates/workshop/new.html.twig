@@ -53,7 +53,12 @@
 		</div>
 
 		<div id="image-preview" class="mb-4">
-			<img id="preview" src="#" alt="Aperçu de l’image" class="img-thumbnail d-none" style="max-height: 300px;">
+			{% if workshop.image %}
+				<label class="form-label">Image actuelle :</label><br>
+				<img id="preview" src="{{ asset('uploads/workshops/' ~ workshop.image) }}" class="img-thumbnail" style="max-height: 300px;">
+			{% else %}
+				<img id="preview" src="#" alt="Aperçu" class="img-thumbnail d-none" style="max-height: 300px;">
+			{% endif %}
 		</div>
 
 		<div class="mt-4">
