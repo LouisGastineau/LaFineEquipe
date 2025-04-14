@@ -37,9 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     /**
-     * @var Collection<int, workshop>
+     * @var Collection<int, Workshop>
      */
-    #[ORM\ManyToMany(targetEntity: workshop::class, inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Workshop::class, inversedBy: 'users')]
     private Collection $workshop;
 
     #[ORM\Column]

@@ -78,4 +78,34 @@ final class WorkshopController extends AbstractController
 
         return $this->redirectToRoute('app_workshop_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/{id}/register', name: 'app_workshop_registration')]
+    public function register( Workshop $workshop, EntityManagerInterface $entityManager): Response
+{
+    $user = $this->getUser();
+        $workshop->addUser($user);
+        $entityManager->persist($workshop);
+        $entityManager->flush();
+        
+        $this->addFlash('success', 'Inscription réussie !');
+
+
+        return $this->redirectToRoute('app_workshop_show', ['id' => $workshop->getId()]);
 }
+
+
+    #[Route('/atelier/{id}/unregister', name: 'workshop_unregister')]
+    public function unregister(Workshop $workshop, EntityManagerInterface $entityManager): Response
+{
+    $user = $this->getUser();
+
+    if ($workshop->getUsers()->contains($user)) {
+        $workshop->removeUser($user);
+        $entityManager->flush();
+
+        $this->addFlash('info', 'Vous avez été désinscrit de l\'atelier.');
+    }
+
+    return $this->redirectToRoute('app_workshop_show', ['id' => $workshop->getId()]);
+}}

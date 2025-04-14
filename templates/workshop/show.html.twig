@@ -30,6 +30,14 @@
         </tbody>
     </table>
 
+{% set registered = workshop.users.contains(app.user) %}
+
+    {% if not registered %}
+        <a href="{{ path('app_workshop_registration', {'id': workshop.id}) }}">S'inscrire</a>
+    {% else %}
+        <a href="{{ path('workshop_unregister', { id: workshop.id }) }}" class="btn btn-danger">Se désinscrire</a>
+    {% endif %}
+
     <a href="{{ path('app_workshop_index') }}">back to list</a>
 
     <a href="{{ path('app_workshop_edit', {'id': workshop.id}) }}">edit</a>
