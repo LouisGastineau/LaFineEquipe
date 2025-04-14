@@ -11,6 +11,16 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WorkshopRepository extends ServiceEntityRepository
 {
+
+    public function findByCategoryId(int $categoryId): array
+    {
+        return $this->createQueryBuilder('w')
+            ->join('w.categories', 'c')
+            ->where('c.id = :id')
+            ->setParameter('id', $categoryId)
+            ->getQuery()
+            ->getResult();
+    }
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Workshop::class);

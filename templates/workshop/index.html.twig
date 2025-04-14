@@ -1,41 +1,92 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Workshop index{% endblock %}
+{% block title %}Liste des ateliers{% endblock %}
 
 {% block body %}
-    <h1>Workshop index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Capacity</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for workshop in workshops %}
-            <tr>
-                <td>{{ workshop.id }}</td>
-                <td>{{ workshop.name }}</td>
-                <td>{{ workshop.description }}</td>
-                <td>{{ workshop.date ? workshop.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ workshop.capacity }}</td>
-                <td>
-                    <a href="{{ path('app_workshop_show', {'id': workshop.id}) }}">show</a>
-                    <a href="{{ path('app_workshop_edit', {'id': workshop.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<form method="get" class="mb-4">
+		<div class="row g-2 align-items-end">
+			<div class="col-md-6">
+				<label for="category" class="form-label">Filtrer par catégorie</label>
+				<select name="category" id="category" class="form-select" onchange="this.form.submit()">
+					<option value="">Toutes les catégories</option>
+					{% for cat in categories %}
+						<option value="{{ cat.id }}" {{ selectedCategory == cat.id ? 'selected' : '' }}>
+							{{ cat.title }}
+						</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+	</form>
 
-    <a href="{{ path('app_workshop_new') }}">Create new</a>
+	<div class="container py-5">
+		<h1 class="mb-4">Tous les ateliers</h1>
+
+		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+			{% for workshop in workshops %}
+				<div class="col">
+					<!-- Lien enveloppant toute la card -->
+					<a href="{{ path('app_workshop_show', {'id': workshop.id}) }}" class="text-decoration-none">
+						<div class="card h-100 shadow-sm">
+							<img src="{{ workshop.image ? asset('uploads/workshops/' ~ workshop.image) : 'https://cdn.helloasso.com/img/logos/croppedimage-0ba5afca8bb240578a0b3ff57b3827a9.png' }}" class="card-img-top" alt="Image atelier">
+
+							<div class="card-body d-flex flex-column">
+								<h5 class="card-title">{{ workshop.name }}</h5>
+								<p class="card-text mb-2">
+									<strong>Catégories :</strong>
+									{% for category in workshop.getCategories() %}
+										<span class="badge bg-secondary">{{ category.getTitle() }}</span>
+									{% else %}
+										<span class="text-muted">Aucune catégorie</span>
+									{% endfor %}
+								</p>
+
+								<p class="card-text text-muted small">
+									{{ workshop.date ? workshop.date|date('d/m/Y H:i') : 'Date non définie' }}
+								</p>
+
+								<p class="card-text">{{ workshop.description|length > 120 ? workshop.description|slice(0, 120) ~ '...' : workshop.description }}</p>
+
+								<p class="mt-auto">
+									<strong>Places :</strong>
+									{{ workshop.users|length }}
+									/
+									{{ workshop.capacity }}
+								</p>
+
+								{% set registered = workshop.users.contains(app.user) %}
+								{% set full = workshop.users|length >= workshop.capacity %}
+
+								<div class="d-grid gap-2 mt-3">
+									{% if app.user %}
+										{% if not registered and not full %}
+											<a href="{{ path('app_workshop_registration', {'id': workshop.id}) }}" class="btn btn-success">S'inscrire</a>
+										{% elseif registered %}
+											<a href="{{ path('workshop_unregister', { id: workshop.id }) }}" class="btn btn-danger">Se désinscrire</a>
+										{% elseif full %}
+											<button class="btn btn-outline-warning" disabled>Atelier complet</button>
+										{% endif %}
+									{% else %}
+										<a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter pour s'inscrire</a>
+									{% endif %}
+									<div class="d-flex justify-content-between">
+										<a href="{{ path('app_workshop_edit', {'id': workshop.id}) }}" class="btn btn-outline-warning btn-sm">Modifier</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			{% else %}
+				<p>Aucun atelier pour le moment.</p>
+			{% endfor %}
+		</div>
+
+		<div class="mt-5 d-flex gap-3">
+			<a href="{{ path('app_workshop_new') }}" class="btn btn-primary">Créer un nouvel atelier</a>
+			<a href="{{ path('app_category_new') }}" class="btn btn-outline-primary">Ajouter une catégorie</a>
+		</div>
+	</div>
+
 {% endblock %}

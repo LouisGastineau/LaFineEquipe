@@ -1,13 +1,100 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Workshop{% endblock %}
+{% block title %}Modifier l'atelier
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Workshop</h1>
+	<div class="container my-5">
+		<h1 class="mb-4">Modifier un atelier</h1>
 
-    {{ include('workshop/_form.html.twig', {'button_label': 'Update'}) }}
+		{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-    <a href="{{ path('app_workshop_index') }}">back to list</a>
+		<div class="row mb-3">
+			<div class="col-md-6">
+				{{ form_label(form.name) }}
+				{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.name) }}
+			</div>
+			<div class="col-md-6">
+				{{ form_label(form.date) }}
+				{{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.date) }}
+			</div>
+		</div>
 
-    {{ include('workshop/_delete_form.html.twig') }}
+		<div class="mb-3">
+			{{ form_label(form.description) }}
+			{{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
+			{{ form_errors(form.description) }}
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-md-6">
+				{{ form_label(form.capacity) }}
+				{{ form_widget(form.capacity, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.capacity) }}
+			</div>
+			<div class="col-md-6">
+				{{ form_label(form.categories) }}
+				{{ form_widget(form.categories, {'attr': {'class': 'form-select', 'multiple': 'multiple'}}) }}
+				{{ form_errors(form.categories) }}
+			</div>
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.imageFile) }}
+			{{ form_widget(form.imageFile, {
+        'attr': {
+            'class': 'form-control',
+            'onchange': 'previewImage(event)'
+        }
+    }) }}
+			{{ form_errors(form.imageFile) }}
+		</div>
+
+		<div id="image-preview" class="mb-4">
+			{% if workshop.image %}
+				<label class="form-label">Image actuelle :</label><br>
+				<img id="preview" src="{{ asset('uploads/workshops/' ~ workshop.image) }}" class="img-thumbnail" style="max-height: 300px;">
+			{% else %}
+				<img id="preview" src="#" alt="Aperçu" class="img-thumbnail d-none" style="max-height: 300px;">
+			{% endif %}
+		</div>
+
+		{% if workshop.image %}
+			<div class="mb-4">
+				<label class="form-label">Image actuelle :</label>
+				<img src="{{ asset('uploads/workshops/' ~ workshop.image) }}" class="img-thumbnail" style="max-height: 300px;" alt="Image de l'atelier">
+			</div>
+			<div class="form-check mb-3">
+				{{ form_widget(form.deleteImage, {'attr': {'class': 'form-check-input'}}) }}
+				{{ form_label(form.deleteImage, null, {'label_attr': {'class': 'form-check-label'}}) }}
+				{{ form_errors(form.deleteImage) }}
+			</div>
+		{% endif %}
+
+		<div class="mt-4">
+			<button class="btn btn-primary">Enregistrer</button>
+			<a href="{{ path('app_workshop_index') }}" class="btn btn-secondary">Retour à la liste</a>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
+
+	<script>
+		function previewImage(event) {
+const input = event.target;
+const preview = document.getElementById('preview');
+const file = input.files[0];
+
+if (file) {
+const reader = new FileReader();
+reader.onload = function (e) {
+preview.src = e.target.result;
+preview.classList.remove('d-none');
+};
+reader.readAsDataURL(file);
+}
+}
+	</script>
 {% endblock %}

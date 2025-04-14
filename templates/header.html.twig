@@ -16,17 +16,15 @@
 					<li class="nav-item">
 						{% if is_granted('ROLE_USER') %}
 							<a class="nav-link" href="{{ path('app_workshop_index') }}">Ateliers</a>
+						{% else %}
+							<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
 						{% endif %}
 					</li>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Nous contacter</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-					</li>
-				</ul>
-			</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Nous contacter</a>
+				</li>
+			</ul>
 		</div>
-	</nav>
-{% endblock %}
+	</div>
+</nav>{% endblock %}

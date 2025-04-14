@@ -1,11 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Workshop{% endblock %}
+{% block title %}Créer un nouvel atelier
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Workshop</h1>
+	<div class="container my-5">
+		<h1 class="mb-4">Créer un atelier</h1>
 
-    {{ include('workshop/_form.html.twig') }}
+		{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-    <a href="{{ path('app_workshop_index') }}">back to list</a>
+		<div class="row mb-3">
+			<div class="col-md-6">
+				{{ form_label(form.name) }}
+				{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.name) }}
+			</div>
+			<div class="col-md-6">
+				{{ form_label(form.date) }}
+				{{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.date) }}
+			</div>
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.description) }}
+			{{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
+			{{ form_errors(form.description) }}
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-md-6">
+				{{ form_label(form.capacity) }}
+				{{ form_widget(form.capacity, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.capacity) }}
+			</div>
+			<div class="col-md-6">
+				{{ form_label(form.categories) }}
+				{{ form_widget(form.categories, {'attr': {'class': 'form-select', 'multiple': 'multiple'}}) }}
+				{{ form_errors(form.categories) }}
+			</div>
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.imageFile) }}
+			{{ form_widget(form.imageFile, {
+        'attr': {
+            'class': 'form-control',
+            'onchange': 'previewImage(event)'
+        }
+    }) }}
+			{{ form_errors(form.imageFile) }}
+		</div>
+
+		<div id="image-preview" class="mb-4">
+			<img id="preview" src="#" alt="Aperçu de l’image" class="img-thumbnail d-none" style="max-height: 300px;">
+		</div>
+
+		<div class="mt-4">
+			<button class="btn btn-success">Créer</button>
+			<a href="{{ path('app_workshop_index') }}" class="btn btn-secondary">Annuler</a>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
 {% endblock %}

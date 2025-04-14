@@ -18,6 +18,8 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    private ?string $name = null;
+
     /**
      * @var Collection<int, Workshop>
      */
@@ -27,6 +29,11 @@ class Category
     public function __construct()
     {
         $this->workshops = new ArrayCollection();
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 
     public function getId(): ?int

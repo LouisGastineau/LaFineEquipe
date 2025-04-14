@@ -32,7 +32,38 @@ class Workshop
      * @var Collection<int, Category>
      */
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'workshops')]
-    private Collection $category;
+
+    private Collection $categories;
+
+public function __construct()
+{
+    $this->categories = new ArrayCollection();
+    $this->users = new ArrayCollection();
+}
+
+// Getter
+public function getCategories(): Collection
+{
+    return $this->categories;
+}
+
+// Methodes add et remove
+public function addCategory(Category $category): static
+{
+    if (!$this->categories->contains($category)) {
+        $this->categories->add($category);
+    }
+
+    return $this;
+}
+
+public function removeCategory(Category $category): static
+{
+    $this->categories->removeElement($category);
+
+    return $this;
+}
+
 
     /**
      * @var Collection<int, User>
@@ -40,11 +71,8 @@ class Workshop
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'workshop')]
     private Collection $users;
 
-    public function __construct()
-    {
-        $this->category = new ArrayCollection();
-        $this->users = new ArrayCollection();
-    }
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
     public function getId(): ?int
     {
@@ -102,26 +130,6 @@ class Workshop
     /**
      * @return Collection<int, Category>
      */
-    public function getCategory(): Collection
-    {
-        return $this->category;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        $this->category->removeElement($category);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, User>
@@ -146,6 +154,18 @@ class Workshop
         if ($this->users->removeElement($user)) {
             $user->removeWorkshop($this);
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
