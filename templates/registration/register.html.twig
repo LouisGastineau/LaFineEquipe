@@ -22,7 +22,25 @@
 		</div>
 
 		<div class="mb-3">
-			{{ form_row(registrationForm.plainPassword) }}
+			{{ form_label(registrationForm.plainPassword.first) }}
+			<div class="password-wrapper input-group">
+				{{ form_widget(registrationForm.plainPassword.first, {
+					'attr': {'id': 'password', 'class': 'form-control'}
+				}) }}
+				<i class="fa-solid fa-eye toggle-eye input-group-text" onclick="togglePassword(this, 'registration_form_plainPassword_first')"></i>
+			</div>
+			{{ form_errors(registrationForm.plainPassword.first) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(registrationForm.plainPassword.second) }}
+			<div class="password-wrapper input-group">
+				{{ form_widget(registrationForm.plainPassword.second, {
+					'attr': {'id': 'confirm-password', 'class': 'form-control'}
+				}) }}
+				<i class="fa-solid fa-eye toggle-eye input-group-text" onclick="togglePassword(this, 'registration_form_plainPassword_second')"></i>
+			</div>
+			{{ form_errors(registrationForm.plainPassword.second) }}
 		</div>
 
 		<button type="submit" class="btn btn-primary w-100">S'inscrire</button>
@@ -34,3 +52,6 @@
 		</p>
 	</div>
 {% endblock %}
+
+
+

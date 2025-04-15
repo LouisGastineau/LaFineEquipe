@@ -24,7 +24,7 @@
 
 		<div class="mb-3">
 			{{ form_label(form.description) }}
-			{{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
+			{{ form_widget(form.description, {'attr': {'class': 'form-control fixed-textarea'}}) }}
 			{{ form_errors(form.description) }}
 		</div>
 
@@ -68,4 +68,5 @@
 
 		{{ form_end(form) }}
 	</div>
+
 {% endblock %}

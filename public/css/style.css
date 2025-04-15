@@ -56,3 +56,32 @@ h2 {
 }
 
 
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-group-text {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+input {
+  padding-right: 35px;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #444;
+}
+
+input[type="password"],
+input[type="text"] {
+  padding-right: 35px;
+}

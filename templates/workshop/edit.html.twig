@@ -24,7 +24,7 @@
 
 		<div class="mb-3">
 			{{ form_label(form.description) }}
-			{{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
+			{{ form_widget(form.description, {'attr': {'class': 'form-control fixed-textarea'}}) }}
 			{{ form_errors(form.description) }}
 		</div>
 
@@ -54,7 +54,7 @@
 
 		<div id="image-preview" class="mb-4">
 			{% if workshop.image %}
-				<label class="form-label">Image actuelle :</label><br>
+				<label class="form-label">Nouvelle image :</label><br>
 				<img id="preview" src="{{ asset('uploads/workshops/' ~ workshop.image) }}" class="img-thumbnail" style="max-height: 300px;">
 			{% else %}
 				<img id="preview" src="#" alt="Aperçu" class="img-thumbnail d-none" style="max-height: 300px;">
