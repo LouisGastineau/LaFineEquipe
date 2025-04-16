@@ -131,7 +131,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, workshop>
      */
-    public function getWorkshop(): Collection
+    public function getWorkshops(): Collection
     {
         return $this->workshop;
     }

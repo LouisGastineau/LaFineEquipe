@@ -11,23 +11,40 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+            ->add('email', EmailType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez entrer une adresse email']),
+                    new Regex([
+                        'pattern' => '/^[\w\.-]+@[\w\.-]+\.\w{2,}$/',
+                        'message' => 'Veuillez entrer une adresse email valide.',
+                    ]),
+                ],
+            ])
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez entrer un nom d\'utilisateur']),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9_]{3,20}$/',
+                        'message' => 'Le nom d\'utilisateur doit contenir entre 3 et 20 caractères, sans caractères spéciaux (lettres, chiffres ou underscores uniquement).',
+                    ]),
+                ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter les conditions.',
                     ]),
                 ],
             ])
@@ -39,13 +56,16 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez entrer un mot de passe',
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+                        'min' => 8,
+                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères',
                         'max' => 4096,
+                    ]),
+                    new Regex([
+                        'pattern' => '/^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d).{8,}$/',
+                        'message' => 'Le mot de passe doit contenir au moins 8 caractères, un chiffre et un caractère spécial.',
                     ]),
                 ],
             ])
@@ -59,3 +79,4 @@ class RegistrationFormType extends AbstractType
         ]);
     }
 }
+

@@ -85,3 +85,51 @@ input[type="password"],
 input[type="text"] {
   padding-right: 35px;
 }
+
+.card-img-top {
+  max-width: 100%;      /* Ne dépasse pas la largeur de son conteneur */
+  max-height: 300px;    /* Ajuste à la hauteur maximale désirée */
+  object-fit: contain;    /* Remplit le cadre sans déformer l'image */
+  display: block;       /* Évite les marges inattendues */
+  margin: 0 auto;       /* Centre l’image horizontalement si elle est plus petite */
+}
+
+.form-fixed {
+  position: fixed;
+  top: 100px;
+  left: 30px;
+  z-index: 1050;
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 90%; /* ne pas dépasser l'écran */
+}
+
+/* Sur petits écrans : rendre le formulaire non fixe */
+@media (max-width: 768px) {
+  .form-fixed {
+    position: static;
+    top: auto;
+    left: auto;
+    width: 100%;
+    margin-bottom: 1rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
+
+textarea.fixed-textarea {
+  min-height: 200px !important;
+  width: 100% !important;
+  resize: vertical !important;
+  padding-top: 10px !important;
+  padding-bottom: 5px !important;
+  line-height: 1.5 !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+
+
