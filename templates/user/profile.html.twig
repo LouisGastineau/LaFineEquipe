@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 profile-page">
+        <div class="row mb-4">
+            <div class="col-md-3 text-center">
+                <img src="{{ asset('images/default-avatar.png') }}" alt="Photo de profil" class="img-thumbnail profile-avatar">
+            </div>
+            <div class="col-md-9">
+                <h1 class="mb-3">Bienvenue, {{ user.username }}</h1>
+                <p><strong>Email :</strong> {{ user.email }}</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2 class="mt-4">Mes ateliers</h2>
+
+        {% if workshops is not empty %}
+            <div class="list-group mt-3">
+                {% for workshop in workshops %}
+                    <div class="list-group-item">
+                        <h5 class="mb-1">{{ workshop.name }}</h5>
+                        <p class="mb-1">{{ workshop.description }}</p>
+                        <small class="text-muted">Le {{ workshop.date|date('d/m/Y') }}</small>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted mt-2">Tu n'es inscrit à aucun atelier pour l’instant.</p>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
+        </div>
+    </div>
+{% endblock %}

@@ -55,7 +55,7 @@
 									{{ workshop.capacity }}
 								</p>
 
-								{% set registered = workshop.users.contains(app.user) %}
+								{% set registered = app.user in workshop.users %}
 								{% set full = workshop.users|length >= workshop.capacity %}
 
 								<div class="d-grid gap-2 mt-3">

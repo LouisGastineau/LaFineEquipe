@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Workshop;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Workshop>
      */
     #[ORM\ManyToMany(targetEntity: Workshop::class, inversedBy: 'users')]
-    private Collection $workshop;
+    private Collection $workshops;
 
     #[ORM\Column]
     private bool $isVerified = false;
@@ -50,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->workshop = new ArrayCollection();
+        $this->workshops = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,13 +134,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getWorkshops(): Collection
     {
-        return $this->workshop;
+        return $this->workshops;
     }
 
     public function addWorkshop(workshop $workshop): static
     {
-        if (!$this->workshop->contains($workshop)) {
-            $this->workshop->add($workshop);
+        if (!$this->workshops->contains($workshop)) {
+            $this->workshops->add($workshop);
         }
 
         return $this;
@@ -147,7 +148,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeWorkshop(workshop $workshop): static
     {
-        $this->workshop->removeElement($workshop);
+        $this->workshops->removeElement($workshop);
 
         return $this;
     }

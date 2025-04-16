@@ -26,6 +26,15 @@ class WorkshopRepository extends ServiceEntityRepository
         parent::__construct($registry, Workshop::class);
     }
 
+    public function findAllWithUsers(): array
+{
+    return $this->createQueryBuilder('w')
+        ->leftJoin('w.users', 'u')
+        ->addSelect('u')
+        ->getQuery()
+        ->getResult();
+}
+
     //    /**
     //     * @return Workshop[] Returns an array of Workshop objects
     //     */

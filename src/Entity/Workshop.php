@@ -68,7 +68,7 @@ public function removeCategory(Category $category): static
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'workshop')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'workshops')]
     private Collection $users;
 
     #[ORM\Column(length: 255, nullable: true)]

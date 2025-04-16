@@ -26,7 +26,7 @@ final class WorkshopController extends AbstractController
         if ($selectedCategory) {
             $workshops = $workshopRepository->findByCategoryId($selectedCategory);
         } else {
-            $workshops = $workshopRepository->findAll();
+            $workshops = $workshopRepository->findAllWithUsers();
         }
 
         return $this->render('workshop/index.html.twig', [
