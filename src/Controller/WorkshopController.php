@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/workshop')]
 final class WorkshopController extends AbstractController
@@ -37,6 +38,7 @@ final class WorkshopController extends AbstractController
     }
 
     #[Route('/new', name: 'app_workshop_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $workshop = new Workshop();
@@ -78,6 +80,7 @@ final class WorkshopController extends AbstractController
     }
 
     #[Route('/workshop/{id}/edit', name: 'app_workshop_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Workshop $workshop, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(WorkshopType::class, $workshop);
@@ -133,6 +136,7 @@ final class WorkshopController extends AbstractController
 
 
     #[Route('/{id}', name: 'app_workshop_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Workshop $workshop, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $workshop->getId(), $request->getPayload()->getString('_token'))) {

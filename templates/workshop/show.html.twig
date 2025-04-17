@@ -1,90 +1,99 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails de l'atelier : {{ workshop.name }}{% endblock %}
+{% block title %}Détails de l'atelier :
+	{{ workshop.name }}
+{% endblock %}
 
 {% block body %}
-<div class="container py-5">
-    <h1 class="mb-4">{{ workshop.name }}</h1>
-    <div class="row">
-        <div class="col-lg-8">
-            <!-- Image de l'atelier -->
-            <img src="{{ workshop.image ? asset('uploads/workshops/' ~ workshop.image) : 'https://source.unsplash.com/800x400/?workshop,education' }}" class="img-fluid rounded" alt="Image de l'atelier">
+	<div class="container py-5">
+		<h1 class="mb-4">{{ workshop.name }}</h1>
+		<div class="row">
+			<div class="col-lg-8">
+				<img src="{{ workshop.image ? asset('uploads/workshops/' ~ workshop.image) : 'https://source.unsplash.com/800x400/?workshop,education' }}" class="img-fluid rounded" alt="Image de l'atelier">
 
-            <div class="mt-4">
-                <h4>Description</h4>
-                <p>{{ workshop.description }}</p>
-            </div>
+				<div class="mt-4">
+					<h4>Description</h4>
+					<p>{{ workshop.description }}</p>
+				</div>
 
-            <div class="mt-4">
-                <h4>Catégories</h4>
-                <div>
-                    {% for category in workshop.getCategories() %}
-                        <span class="badge bg-secondary">{{ category.getTitle() }}</span>
-                    {% else %}
-                        <span class="text-muted">Aucune catégorie</span>
-                    {% endfor %}
-                </div>
-            </div>
+				<div class="mt-4">
+					<h4>Catégories</h4>
+					<div>
+						{% for category in workshop.getCategories() %}
+							<span class="badge bg-secondary">{{ category.getTitle() }}</span>
+						{% else %}
+							<span class="text-muted">Aucune catégorie</span>
+						{% endfor %}
+					</div>
+				</div>
 
-            <div class="mt-4">
-                <h4>Date et Heure</h4>
-                <p>{{ workshop.date ? workshop.date|date('d/m/Y H:i') : 'Date non définie' }}</p>
-            </div>
+				<div class="mt-4">
+					<h4>Date et Heure</h4>
+					<p>{{ workshop.date ? workshop.date|date('d/m/Y H:i') : 'Date non définie' }}</p>
+				</div>
 
-            <div class="mt-4">
-                <h4>Places disponibles</h4>
-                <p>{{ workshop.users|length }} / {{ workshop.capacity }}</p>
-            </div>
+				<div class="mt-4">
+					<h4>Places disponibles</h4>
+					<p>{{ workshop.users|length }}
+						/
+						{{ workshop.capacity }}</p>
+				</div>
 
-            <div class="mt-4">
-                <h4>Participants</h4>
-                <ul class="list-group">
-                    {% if workshop.users|length > 0 %}
-                        {% for user in workshop.users %}
-                            <li class="list-group-item">
-                                {{ user.username }}
-                                {% if user == app.user %}
-                                    <span class="badge bg-success">Vous êtes inscrit</span>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    {% else %}
-                        <p>Aucun participant pour le moment.</p>
-                    {% endif %}
-                </ul>
-            </div>
+				<div class="mt-4">
+					<h4>Participants</h4>
+					<ul class="list-group">
+						{% if workshop.users|length > 0 %}
+							{% for user in workshop.users %}
+								<li class="list-group-item">
+									{{ user.username }}
+									{% if user == app.user %}
+										<span class="badge bg-success">Vous êtes inscrit</span>
+									{% endif %}
+								</li>
+							{% endfor %}
+						{% else %}
+							<p>Aucun participant pour le moment.</p>
+						{% endif %}
+					</ul>
+				</div>
 
-            <!-- Actions selon que l'utilisateur est inscrit ou non -->
-            <div class="mt-4">
-                {% if app.user %}
-                    {% if workshop.users.contains(app.user) %}
-                        <a href="{{ path('workshop_unregister', {'id': workshop.id}) }}" class="btn btn-danger">Se désinscrire</a>
-                    {% elseif workshop.users|length < workshop.capacity %}
-                        <a href="{{ path('app_workshop_registration', {'id': workshop.id}) }}" class="btn btn-success">S'inscrire à l'atelier</a>
-                    {% else %}
-                        <button class="btn btn-outline-warning" disabled>Atelier complet</button>
-                    {% endif %}
-                {% endif %}
-            </div>
+				<!-- Actions selon que l'utilisateur est inscrit ou non -->
+				<div class="mt-4">
+					{% if app.user %}
+						{% if workshop.users.contains(app.user) %}
+							<a href="{{ path('workshop_unregister', {'id': workshop.id}) }}" class="btn btn-danger">Se désinscrire</a>
+						{% elseif workshop.users|length < workshop.capacity %}
+							<a href="{{ path('app_workshop_registration', {'id': workshop.id}) }}" class="btn btn-success">S'inscrire à l'atelier</a>
+						{% else %}
+							<button class="btn btn-outline-warning" disabled>Atelier complet</button>
+						{% endif %}
+					{% endif %}
+				</div>
 
-        </div>
+			</div>
 
-        <div class="col-lg-4">
-            <!-- Informations supplémentaires sur l'atelier -->
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Détails rapides</h5>
-                    <p class="card-text">
-                        <strong>Capacité :</strong> {{ workshop.capacity }} places<br>
-                        <strong>Date :</strong> {{ workshop.date ? workshop.date|date('d/m/Y H:i') : 'Date non définie' }}<br>
-                    </p>
-                    <div class="mt-3">
-                        <a href="{{ path('app_workshop_edit', {'id': workshop.id}) }}" class="btn btn-warning btn-sm">Modifier l'atelier</a>
-                        <a href="{{ path('app_workshop_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+			<div
+				class="col-lg-4">
+				<!-- Informations supplémentaires sur l'atelier -->
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<h5 class="card-title">Détails rapides</h5>
+						<p class="card-text">
+							<strong>Capacité :</strong>
+							{{ workshop.capacity }}
+							places<br>
+							<strong>Date :</strong>
+							{{ workshop.date ? workshop.date|date('d/m/Y H:i') : 'Date non définie' }}<br>
+						</p>
+						<div class="mt-3">
+							{% if is_granted('ROLE_ADMIN') %}
+								<a href="{{ path('app_workshop_edit', {'id': workshop.id}) }}" class="btn btn-warning btn-sm">Modifier l'atelier</a>
+							{% endif %}
+							<a href="{{ path('app_workshop_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

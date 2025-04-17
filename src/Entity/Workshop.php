@@ -32,7 +32,7 @@ class Workshop
      * @var Collection<int, Category>
      */
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'workshops')]
-
+    
     private Collection $categories;
 
 public function __construct()
