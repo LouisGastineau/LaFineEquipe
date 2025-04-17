@@ -133,3 +133,42 @@ textarea.fixed-textarea {
 
 
 
+.hero h1, .hero p {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.section-divider img {
+  display: block;
+  max-width: 900px;
+  width: 100%;
+  margin: 2rem auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.site-banner {
+  background: url('../images/banner.jpg') center center / cover no-repeat;
+  height: 400px;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.site-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.site-banner .container {
+  position: relative;
+  z-index: 1;
+}
+
+.display-4{
+  color: #f4f4f4;
+}
+
+
+
+
