@@ -87,11 +87,11 @@ input[type="text"] {
 }
 
 .card-img-top {
-  max-width: 100%;      /* Ne dépasse pas la largeur de son conteneur */
-  max-height: 300px;    /* Ajuste à la hauteur maximale désirée */
-  object-fit: contain;    /* Remplit le cadre sans déformer l'image */
-  display: block;       /* Évite les marges inattendues */
-  margin: 0 auto;       /* Centre l’image horizontalement si elle est plus petite */
+  max-width: 100%;  
+  max-height: 300px;    
+  object-fit: contain;    
+  display: block;       
+  margin: 0 auto;       
 }
 
 .form-fixed {
