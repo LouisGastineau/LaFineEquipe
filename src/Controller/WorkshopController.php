@@ -152,14 +152,26 @@ final class WorkshopController extends AbstractController
     public function register(Workshop $workshop, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
+        
+        // Server-side validation to prevent overbooking
+        if ($workshop->getUsers()->count() >= $workshop->getCapacity()) {
+            $this->addFlash('error', 'Désolé, cet atelier est complet.');
+            return $this->redirectToRoute('app_workshop_show', ['id' => $workshop->getId()]);
+        }
+        
+        // Check if user is already registered
+        if ($workshop->getUsers()->contains($user)) {
+            $this->addFlash('info', 'Vous êtes déjà inscrit à cet atelier.');
+            return $this->redirectToRoute('app_workshop_show', ['id' => $workshop->getId()]);
+        }
+        
         $workshop->addUser($user);
         $entityManager->persist($workshop);
         $entityManager->flush();
 
         $this->addFlash('success', 'Inscription réussie !');
 
-
-        return $this->redirectToRoute('app_workshop_index');
+        return $this->redirectToRoute('app_workshop_show', ['id' => $workshop->getId()]);
     }
 
 

@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 profile-page">
+        <h1 class="mb-4">Modifier mon profil</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-4">
+                <div class="col-md-3 text-center">
+                    <div class="mb-3">
+                        {% if user.avatar %}
+                            <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" 
+                                 alt="Photo de profil" 
+                                 class="img-thumbnail profile-avatar"
+                                 id="avatarPreview">
+                        {% else %}
+                            <div class="profile-avatar-placeholder d-flex align-items-center justify-content-center bg-secondary text-white mx-auto" 
+                                 style="width: 150px; height: 150px; font-size: 4rem; border-radius: 50%;"
+                                 id="avatarPreview">
+                                {{ user.username|first|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Changer l'avatar</label>
+                        <input type="file" 
+                               class="form-control" 
+                               id="avatar" 
+                               name="avatar" 
+                               accept="image/*"
+                               onchange="previewAvatar(this)">
+                        <small class="text-muted">Format: JPG, PNG, GIF (max 2MB)</small>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur <span class="text-danger">*</span></label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="username" 
+                               name="username" 
+                               value="{{ user.username }}" 
+                               required
+                               minlength="3"
+                               maxlength="255">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description / Bio</label>
+                        <textarea class="form-control" 
+                                  id="description" 
+                                  name="description" 
+                                  rows="4"
+                                  maxlength="1000"
+                                  placeholder="Parlez-nous un peu de vous...">{{ user.description }}</textarea>
+                        <small class="text-muted">Maximum 1000 caractères</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Téléphone</label>
+                        <input type="tel" 
+                               class="form-control" 
+                               id="phone" 
+                               name="phone" 
+                               value="{{ user.phone }}"
+                               placeholder="+33 6 12 34 56 78">
+                        <small class="text-muted">Ces informations ne sont visibles que par vous et les administrateurs</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Adresse</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="address" 
+                               name="address" 
+                               value="{{ user.address }}"
+                               placeholder="Ville, Pays">
+                        <small class="text-muted">Ces informations ne sont visibles que par vous et les administrateurs</small>
+                    </div>
+
+                    <div class="card p-3 mb-3 bg-light border-info">
+                        <h6 class="mb-2"><i class="fas fa-info-circle"></i> Confidentialité</h6>
+                        <p class="mb-0 small">
+                            Votre email, téléphone et adresse ne sont visibles que par vous et les administrateurs.
+                            Votre nom d'utilisateur et avatar sont publics.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <a href="{{ path('app_profile') }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    function previewAvatar(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const preview = document.getElementById('avatarPreview');
+                if (preview.tagName === 'IMG') {
+                    preview.src = e.target.result;
+                } else {
+                    // Replace placeholder with image
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'img-thumbnail profile-avatar';
+                    img.alt = 'Photo de profil';
+                    preview.replaceWith(img);
+                }
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

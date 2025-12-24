@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Profil{% endblock %}
+{% block title %}Profil de {{ user.username }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,7 +13,7 @@
             <div class="col-md-3 text-center">
                 {% if user.avatar %}
                     <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" 
-                         alt="Photo de profil" 
+                         alt="Photo de profil de {{ user.username }}" 
                          class="img-thumbnail profile-avatar">
                 {% else %}
                     <div class="profile-avatar-placeholder d-flex align-items-center justify-content-center bg-secondary text-white mx-auto" 
@@ -23,32 +23,49 @@
                 {% endif %}
             </div>
             <div class="col-md-9">
-                <h1 class="mb-3">Bienvenue, {{ user.username }}</h1>
+                <h1 class="mb-3">{{ user.username }}</h1>
                 
                 {% if user.description %}
                     <div class="mb-3">
+                        <h5>À propos</h5>
                         <p>{{ user.description }}</p>
                     </div>
                 {% endif %}
 
-                <div class="card p-3 mb-3 bg-light">
-                    <h5>Mes informations de contact</h5>
-                    <p class="mb-1"><strong>Email :</strong> {{ user.email }}</p>
-                    {% if user.phone %}
-                        <p class="mb-1"><strong>Téléphone :</strong> {{ user.phone }}</p>
-                    {% endif %}
-                    {% if user.address %}
-                        <p class="mb-0"><strong>Adresse :</strong> {{ user.address }}</p>
-                    {% endif %}
-                </div>
+                {% if canViewContact %}
+                    <div class="card p-3 mb-3 bg-light">
+                        <h5>Informations de contact 
+                            {% if app.user == user %}
+                                <span class="badge bg-info">Visible par vous uniquement</span>
+                            {% else %}
+                                <span class="badge bg-warning">Admin - Visible</span>
+                            {% endif %}
+                        </h5>
+                        <p class="mb-1"><strong>Email :</strong> {{ user.email }}</p>
+                        {% if user.phone %}
+                            <p class="mb-1"><strong>Téléphone :</strong> {{ user.phone }}</p>
+                        {% endif %}
+                        {% if user.address %}
+                            <p class="mb-0"><strong>Adresse :</strong> {{ user.address }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
 
-                <a href="{{ path('app_profile_edit') }}" class="btn btn-primary">Modifier mon profil</a>
+                {% if app.user == user %}
+                    <a href="{{ path('app_profile_edit') }}" class="btn btn-primary">Modifier mon profil</a>
+                {% endif %}
             </div>
         </div>
 
         <hr>
 
-        <h2 class="mt-4">Mes ateliers</h2>
+        <h2 class="mt-4">Ateliers 
+            {% if app.user == user %}
+                inscrits
+            {% else %}
+                de {{ user.username }}
+            {% endif %}
+        </h2>
 
         {% if workshops is not empty %}
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
@@ -64,6 +81,9 @@
                                     <p class="card-text text-muted small">
                                         {{ workshop.date ? workshop.date|date('d/m/Y H:i') : 'Date non définie' }}
                                     </p>
+                                    <p class="card-text">
+                                        {{ workshop.description|length > 80 ? workshop.description|slice(0, 80) ~ '...' : workshop.description }}
+                                    </p>
                                 </div>
                             </div>
                         </a>
@@ -71,11 +91,19 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p class="text-muted mt-2">Tu n'es inscrit à aucun atelier pour l'instant.</p>
+            <p class="text-muted mt-2">
+                {% if app.user == user %}
+                    Vous n'êtes inscrit à aucun atelier pour l'instant.
+                {% else %}
+                    {{ user.username }} n'est inscrit à aucun atelier pour l'instant.
+                {% endif %}
+            </p>
         {% endif %}
 
-        <div class="mt-4">
-            <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
-        </div>
+        {% if app.user == user %}
+            <div class="mt-4">
+                <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
