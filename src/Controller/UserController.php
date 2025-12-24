@@ -82,7 +82,12 @@ class UserController extends AbstractController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $avatarFile->guessExtension();
 
                 // Use parameter for upload directory
-                $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/avatars';
+                $uploadDir = $this->getParameter('avatars_directory');
+                
+                // Ensure directory exists
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
                 
                 $avatarFile->move($uploadDir, $newFilename);
 

@@ -23,6 +23,11 @@ class WorkshopExtension extends AbstractExtension
      */
     public function getCapacityBadgeClass(int $currentCount, int $maxCapacity): string
     {
+        // Guard against division by zero
+        if ($maxCapacity <= 0) {
+            return 'bg-secondary';
+        }
+        
         if ($currentCount >= $maxCapacity) {
             return 'bg-danger';
         }
