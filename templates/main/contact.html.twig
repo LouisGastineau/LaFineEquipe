@@ -2,6 +2,11 @@
 
 {% block title %}Nous Contacter{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/contact.js') }}"></script>
+{% endblock %}
+
 {% block body %}
 
 <header class="site-banner d-flex align-items-center text-white text-center" style="height: 300px;">
@@ -143,46 +148,6 @@
     </div>
 </main>
 
-<footer class="bg-dark text-white text-center py-4">
-    <p>&copy; {{ "now"|date("Y") }} La Fine Équipe - Tous droits réservés</p>
-</footer>
-
-<script>
-// Form validation
-(function() {
-    'use strict';
-    
-    const form = document.getElementById('contactForm');
-    
-    if (form) {
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            if (form.checkValidity()) {
-                // Show success message
-                document.getElementById('successMessage').style.display = 'block';
-                
-                // Reset form
-                form.reset();
-                form.classList.remove('was-validated');
-                
-                // Scroll to success message
-                document.getElementById('successMessage').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
-                });
-                
-                // Hide success message after 10 seconds
-                setTimeout(function() {
-                    document.getElementById('successMessage').style.display = 'none';
-                }, 10000);
-            } else {
-                form.classList.add('was-validated');
-            }
-        }, false);
-    }
-})();
-</script>
+{% include "footer.html.twig" %}
 
 {% endblock %}
