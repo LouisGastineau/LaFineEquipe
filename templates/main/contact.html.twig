@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous Contacter{% endblock %}
+
+{% block body %}
+
+<header class="site-banner d-flex align-items-center text-white text-center" style="height: 300px;">
+    <div class="container">
+        <h1 class="display-4">Nous Contacter</h1>
+        <p class="lead">Une question ? Une suggestion ? N'hésitez pas à nous écrire !</p>
+    </div>
+</header>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <section class="section">
+                <h2 class="mb-4">Formulaire de Contact</h2>
+                
+                <form id="contactForm" method="post" action="#" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Nom complet <span class="text-danger" aria-label="requis">*</span></label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="name" 
+                            name="name" 
+                            required 
+                            aria-required="true"
+                            placeholder="Votre nom"
+                            minlength="2"
+                        >
+                        <div class="invalid-feedback">
+                            Veuillez entrer votre nom (au moins 2 caractères).
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="form-label">Adresse email <span class="text-danger" aria-label="requis">*</span></label>
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="email" 
+                            name="email" 
+                            required 
+                            aria-required="true"
+                            placeholder="votre.email@exemple.fr"
+                        >
+                        <div class="invalid-feedback">
+                            Veuillez entrer une adresse email valide.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="subject" class="form-label">Sujet <span class="text-danger" aria-label="requis">*</span></label>
+                        <select 
+                            class="form-select" 
+                            id="subject" 
+                            name="subject" 
+                            required 
+                            aria-required="true"
+                        >
+                            <option value="" selected disabled>Choisissez un sujet</option>
+                            <option value="information">Demande d'information</option>
+                            <option value="adhesion">Adhésion à l'association</option>
+                            <option value="benevole">Devenir bénévole</option>
+                            <option value="partenariat">Proposition de partenariat</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Veuillez sélectionner un sujet.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="message" class="form-label">Message <span class="text-danger" aria-label="requis">*</span></label>
+                        <textarea 
+                            class="form-control" 
+                            id="message" 
+                            name="message" 
+                            rows="6" 
+                            required 
+                            aria-required="true"
+                            placeholder="Votre message..."
+                            minlength="10"
+                        ></textarea>
+                        <div class="invalid-feedback">
+                            Veuillez entrer un message (au moins 10 caractères).
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+                        </button>
+                    </div>
+                </form>
+
+                <div id="successMessage" class="alert alert-success mt-4" style="display: none;" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <strong>Merci !</strong> Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.
+                </div>
+            </section>
+
+            <section class="section mt-4">
+                <h2 class="mb-4">Informations de Contact</h2>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-map-marker-alt text-success me-3 mt-1" style="font-size: 1.5rem;"></i>
+                            <div>
+                                <h3 class="h5 mb-2">Adresse</h3>
+                                <p class="mb-0">Le Mans (72)<br>France</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-envelope text-success me-3 mt-1" style="font-size: 1.5rem;"></i>
+                            <div>
+                                <h3 class="h5 mb-2">Email</h3>
+                                <p class="mb-0">
+                                    <a href="mailto:contact@lafineequipe.org">contact@lafineequipe.org</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-light border-start border-success border-4 rounded">
+                    <h3 class="h5 mb-2">
+                        <i class="fas fa-info-circle text-success me-2"></i>À propos de nos réponses
+                    </h3>
+                    <p class="mb-0">
+                        Nous nous efforçons de répondre à tous les messages dans un délai de 48 heures ouvrables.
+                        Pour les demandes urgentes, n'hésitez pas à le préciser dans votre message.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-white text-center py-4">
+    <p>&copy; {{ "now"|date("Y") }} La Fine Équipe - Tous droits réservés</p>
+</footer>
+
+<script>
+// Form validation
+(function() {
+    'use strict';
+    
+    const form = document.getElementById('contactForm');
+    
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (form.checkValidity()) {
+                // Show success message
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Reset form
+                form.reset();
+                form.classList.remove('was-validated');
+                
+                // Scroll to success message
+                document.getElementById('successMessage').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
+                // Hide success message after 10 seconds
+                setTimeout(function() {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 10000);
+            } else {
+                form.classList.add('was-validated');
+            }
+        }, false);
+    }
+})();
+</script>
+
+{% endblock %}
