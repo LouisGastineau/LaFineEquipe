@@ -238,6 +238,11 @@ button:disabled,
   align-items: center;
 }
 
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+  padding-right: 45px;
+}
+
 .input-group-text {
   cursor: pointer;
   background-color: transparent;
@@ -249,11 +254,6 @@ button:disabled,
 .input-group-text:focus {
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
-}
-
-input[type="password"],
-input[type="text"] {
-  padding-right: 45px;
 }
 
 .toggle-eye {

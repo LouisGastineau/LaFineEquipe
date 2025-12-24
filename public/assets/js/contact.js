@@ -1,4 +1,6 @@
 // Contact form validation
+// Note: This currently provides client-side validation only.
+// To enable actual form submission, update the controller to handle POST requests.
 (function() {
     'use strict';
     
