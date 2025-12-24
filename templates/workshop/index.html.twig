@@ -51,7 +51,7 @@
 								<div class="mt-auto">
 									<div class="d-flex align-items-center justify-content-between p-2 bg-light rounded">
 										<strong>Places :</strong>
-										<span class="badge {% if workshop.users|length >= workshop.capacity %}bg-danger{% elseif workshop.users|length >= (workshop.capacity * 0.8) %}bg-warning{% else %}bg-success{% endif %} fs-6">
+										<span class="badge {{ workshop.users|length|capacity_badge_class(workshop.capacity) }} fs-6">
 											{{ workshop.users|length }} / {{ workshop.capacity }}
 										</span>
 									</div>

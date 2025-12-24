@@ -62,18 +62,33 @@ class UserController extends AbstractController
             /** @var UploadedFile $avatarFile */
             $avatarFile = $request->files->get('avatar');
             if ($avatarFile) {
+                // Validate file size (2MB max)
+                $maxSize = 2 * 1024 * 1024; // 2MB in bytes
+                if ($avatarFile->getSize() > $maxSize) {
+                    $this->addFlash('error', 'Le fichier est trop volumineux. Taille maximum: 2MB');
+                    return $this->redirectToRoute('app_profile_edit');
+                }
+
+                // Validate MIME type (only images)
+                $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                $mimeType = $avatarFile->getMimeType();
+                if (!in_array($mimeType, $allowedMimeTypes)) {
+                    $this->addFlash('error', 'Format de fichier non autorisé. Utilisez JPG, PNG, GIF ou WebP.');
+                    return $this->redirectToRoute('app_profile_edit');
+                }
+
                 $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $avatarFile->guessExtension();
 
-                $avatarFile->move(
-                    $this->getParameter('kernel.project_dir') . '/public/uploads/avatars',
-                    $newFilename
-                );
+                // Use parameter for upload directory
+                $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/avatars';
+                
+                $avatarFile->move($uploadDir, $newFilename);
 
                 // Delete old avatar if exists
                 if ($user->getAvatar()) {
-                    $oldAvatarPath = $this->getParameter('kernel.project_dir') . '/public/uploads/avatars/' . $user->getAvatar();
+                    $oldAvatarPath = $uploadDir . '/' . $user->getAvatar();
                     if (file_exists($oldAvatarPath)) {
                         unlink($oldAvatarPath);
                     }
