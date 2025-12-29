@@ -41,20 +41,39 @@
 
 				<div class="mt-4">
 					<h4>Participants</h4>
-					<ul class="list-group">
-						{% if workshop.users|length > 0 %}
+					{% if workshop.users|length > 0 %}
+						<div class="row g-3">
 							{% for user in workshop.users %}
-								<li class="list-group-item">
-									{{ user.username }}
-									{% if user == app.user %}
-										<span class="badge bg-success">Vous êtes inscrit</span>
-									{% endif %}
-								</li>
+								<div class="col-md-6">
+									<div class="d-flex align-items-center p-2 border rounded">
+										<a href="{{ path('app_user_profile_view', {'id': user.id}) }}" class="text-decoration-none">
+											{% if user.avatar %}
+												<img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" 
+													 alt="Avatar de {{ user.username }}" 
+													 class="rounded-circle me-3" 
+													 style="width: 50px; height: 50px; object-fit: cover;">
+											{% else %}
+												<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3" 
+													 style="width: 50px; height: 50px; font-size: 1.5rem;">
+													{{ user.username|first|upper }}
+												</div>
+											{% endif %}
+										</a>
+										<div class="flex-grow-1">
+											<a href="{{ path('app_user_profile_view', {'id': user.id}) }}" class="text-decoration-none">
+												<strong>{{ user.username }}</strong>
+											</a>
+											{% if user == app.user %}
+												<span class="badge bg-success ms-2">Vous</span>
+											{% endif %}
+										</div>
+									</div>
+								</div>
 							{% endfor %}
-						{% else %}
-							<p>Aucun participant pour le moment.</p>
-						{% endif %}
-					</ul>
+						</div>
+					{% else %}
+						<p class="text-muted">Aucun participant pour le moment.</p>
+					{% endif %}
 				</div>
 
 				<!-- Actions selon que l'utilisateur est inscrit ou non -->

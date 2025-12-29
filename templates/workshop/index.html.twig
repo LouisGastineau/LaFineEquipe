@@ -48,12 +48,14 @@
 
 								<p class="card-text">{{ workshop.description|length > 120 ? workshop.description|slice(0, 120) ~ '...' : workshop.description }}</p>
 
-								<p class="mt-auto">
-									<strong>Places :</strong>
-									{{ workshop.users|length }}
-									/
-									{{ workshop.capacity }}
-								</p>
+								<div class="mt-auto">
+									<div class="d-flex align-items-center justify-content-between p-2 bg-light rounded">
+										<strong>Places :</strong>
+										<span class="badge {{ workshop.users|length|capacity_badge_class(workshop.capacity) }} fs-6">
+											{{ workshop.users|length }} / {{ workshop.capacity }}
+										</span>
+									</div>
+								</div>
 
 								{% set registered = app.user in workshop.users %}
 								{% set full = workshop.users|length >= workshop.capacity %}
