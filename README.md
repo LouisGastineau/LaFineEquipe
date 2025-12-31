@@ -269,12 +269,12 @@ LaFineEquipe/
 
 ## 📸 Captures d'écran
 
-### Équipe de l'association
-![Équipe La Fine Équipe](https://github.com/user-attachments/assets/f9f65f1d-327c-419d-8d3c-512bad347836)
-
-*L'équipe de bénévoles et participants lors d'un atelier en plein air*
-
 ### Page d'accueil
+![Page d'accueil](https://github.com/user-attachments/assets/bb97aef9-5952-43cd-a915-61d2453047b2)
+
+*Page d'accueil de l'application web présentant la mission de l'association*
+
+### Description de la page d'accueil
 La page d'accueil présente la mission de l'association et les événements à venir. Elle offre une navigation intuitive vers les différentes sections du site.
 
 **Fonctionnalités visibles :**
