@@ -63,7 +63,7 @@ Cette application web permet de :
 
 ### Frontend
 - **HTML5/CSS3** - Structure et style
-- **Bootstrap 5.3** - Framework CSS responsive
+- **Bootstrap 5.3.3** - Framework CSS responsive
 - **JavaScript** - Interactivité
 - **Webpack Encore** - Bundler d'assets
 - **Stimulus** - Framework JavaScript léger
@@ -162,12 +162,21 @@ MAILER_DSN=smtp://mailer:1025
 
 ### Créer un utilisateur administrateur
 
-```bash
-# Via la console Symfony
-php bin/console app:create-admin
+Pour créer un utilisateur administrateur, vous avez plusieurs options :
 
-# Ou créer un utilisateur normal puis modifier son rôle en base
-# UPDATE "user" SET roles = '["ROLE_ADMIN"]' WHERE email = 'admin@example.com';
+**Option 1 : Via l'inscription normale puis modification en base**
+```bash
+# 1. Inscrivez-vous normalement via l'interface web
+# 2. Puis modifiez le rôle de l'utilisateur en base de données
+psql -U app -d app -c "UPDATE \"user\" SET roles = '[\"ROLE_ADMIN\"]' WHERE email = 'admin@example.com';"
+```
+
+**Option 2 : Directement en SQL**
+```sql
+-- Créez un utilisateur avec un mot de passe hashé
+-- Note: Le mot de passe doit être hashé avec l'algorithme utilisé par Symfony (bcrypt/argon2)
+INSERT INTO "user" (email, roles, password, is_verified, username) 
+VALUES ('admin@example.com', '["ROLE_ADMIN"]', '$2y$13$hashedpassword', true, 'Admin');
 ```
 
 ## 💻 Utilisation
