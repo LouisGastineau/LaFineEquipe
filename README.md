@@ -167,16 +167,22 @@ Pour créer un utilisateur administrateur, vous avez plusieurs options :
 **Option 1 : Via l'inscription normale puis modification en base**
 ```bash
 # 1. Inscrivez-vous normalement via l'interface web
-# 2. Puis modifiez le rôle de l'utilisateur en base de données
-psql -U app -d app -c "UPDATE \"user\" SET roles = '[\"ROLE_ADMIN\"]' WHERE email = 'admin@example.com';"
+# 2. Puis modifiez le rôle de l'utilisateur en base de données (user est un mot réservé en PostgreSQL, d'où les guillemets)
+psql -U app -d app -c "UPDATE \"user\" SET roles = '[\"ROLE_ADMIN\"]' WHERE email = 'votre.email@example.com';"
 ```
 
-**Option 2 : Directement en SQL**
-```sql
--- Créez un utilisateur avec un mot de passe hashé
--- Note: Le mot de passe doit être hashé avec l'algorithme utilisé par Symfony (bcrypt/argon2)
+**Option 2 : Utiliser la console Symfony pour hasher un mot de passe**
+```bash
+# 1. Générez un hash de mot de passe sécurisé
+php bin/console security:hash-password
+# Entrez votre mot de passe souhaité
+
+# 2. Utilisez le hash généré dans la commande SQL suivante
+# Note: 'user' est un mot réservé en PostgreSQL, d'où les guillemets doubles
+psql -U app -d app
+# Puis dans psql:
 INSERT INTO "user" (email, roles, password, is_verified, username) 
-VALUES ('admin@example.com', '["ROLE_ADMIN"]', '$2y$13$hashedpassword', true, 'Admin');
+VALUES ('admin@example.com', '["ROLE_ADMIN"]', 'VOTRE_HASH_ICI', true, 'Admin');
 ```
 
 ## 💻 Utilisation
