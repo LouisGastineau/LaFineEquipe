@@ -12,29 +12,41 @@
 </header>
 
 <main class="container my-5">
-    <section id="mission" class="mb-5">
-        <h2 class="mb-3">Notre Mission</h2>
-        <p>
+    <section id="mission" class="mb-5 p-4 bg-white rounded-3 shadow-sm">
+        <h2 class="mb-4">Notre Mission</h2>
+        <p class="fs-5 text-muted lh-lg">
             La Fine Équipe est une association créée en 2024 au Mans (72). Notre objectif ? Redonner de la joie de vivre à des jeunes en souffrance psychique et à leurs proches.
             Plusieurs fois dans le mois, nous organisons des activités pour favoriser la convivialité, le partage et la réhabilitation sociale.
         </p>
     </section>
 
-     <div class="section-divider">
-        <img src="{{ asset('assets/images/banner2.jpg') }}" alt="Illustration mission" class="img-fluid w-100 my-4">
+     <div class="section-divider my-5">
+        <img src="{{ asset('assets/images/banner2.jpg') }}" alt="Illustration mission" class="img-fluid w-100 rounded-3 shadow">
     </div>
 
-    <section id="evenements">
-        <h2 class="mb-3">Événements à Venir</h2>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <strong>Collecte de vêtements</strong> - 15 avril 2025, de 10h à 16h
+    <section id="evenements" class="p-4 bg-white rounded-3 shadow-sm">
+        <h2 class="mb-4">Événements à Venir</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex align-items-start">
+                <span class="me-3 fs-4">🎽</span>
+                <div>
+                    <strong>Collecte de vêtements</strong>
+                    <div class="text-muted">15 avril 2025, de 10h à 16h</div>
+                </div>
             </li>
-            <li class="list-group-item">
-                <strong>Marche solidaire</strong> - 30 avril 2025, à partir de 9h
+            <li class="list-group-item d-flex align-items-start">
+                <span class="me-3 fs-4">🚶</span>
+                <div>
+                    <strong>Marche solidaire</strong>
+                    <div class="text-muted">30 avril 2025, à partir de 9h</div>
+                </div>
             </li>
-            <li class="list-group-item">
-                <strong>Conférence sur l'environnement</strong> - 10 mai 2025, à 14h
+            <li class="list-group-item d-flex align-items-start">
+                <span class="me-3 fs-4">🌍</span>
+                <div>
+                    <strong>Conférence sur l'environnement</strong>
+                    <div class="text-muted">10 mai 2025, à 14h</div>
+                </div>
             </li>
         </ul>
     </section>
