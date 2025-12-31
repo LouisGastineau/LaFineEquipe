@@ -4,6 +4,10 @@
 	{{ workshop.name }}
 {% endblock %}
 
+{% block meta %}
+	<meta name="turbo-cache-control" content="no-cache">
+{% endblock %}
+
 {% block body %}
 	<div class="container py-5">
 		<h1 class="mb-4">{{ workshop.name }}</h1>
