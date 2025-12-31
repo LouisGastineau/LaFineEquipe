@@ -336,9 +336,11 @@ main section {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-main section:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.12) !important;
+@media (prefers-reduced-motion: no-preference) {
+  main section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.12);
+  }
 }
 
 main section p {
@@ -397,16 +399,18 @@ main section p {
   border: 1px solid #e8e4df;
   padding: 1.25rem 1.5rem;
   background-color: white;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 0.75rem;
   border-radius: 8px;
 }
 
-.list-group-item:hover,
-.list-group-item:focus-within {
-  background-color: #f9f7f4;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-  transform: translateX(5px);
+@media (prefers-reduced-motion: no-preference) {
+  .list-group-item:hover,
+  .list-group-item:focus-within {
+    background-color: #f9f7f4;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+  }
 }
 
 .list-group-item strong {
